@@ -1,0 +1,313 @@
+/* ── KPI Row ── */
+.kpiRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 1100px) { .kpiRow { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px)  { .kpiRow { grid-template-columns: 1fr 1fr; } }
+
+.kpiCard {
+  background: var(--white);
+  border: 1px solid var(--sand2);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.2s;
+}
+
+.kpiCard:hover {
+  border-color: var(--sand3);
+}
+
+.kpiIconRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kpiIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.kpiTag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.kpiNumber {
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.kpiLabel {
+  font-size: 12px;
+  color: var(--ink3);
+  font-weight: 500;
+}
+
+/* ── Layout Grids ── */
+.contentGrid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 14px;
+}
+
+.bottomGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 960px) { .contentGrid { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .bottomGrid { grid-template-columns: 1fr; } }
+
+/* ── Card ── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--sand2);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--sand2);
+}
+
+.cardTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.cardBadge {
+  font-size: 11px;
+  color: var(--ink3);
+  background: var(--sand);
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.cardBody {
+  padding: 16px 18px;
+}
+
+/* ── Bar Chart ── */
+.chartBars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 140px;
+  padding-bottom: 22px;
+  position: relative;
+}
+
+.chartBars::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 22px 0;
+  background-image: repeating-linear-gradient(
+    180deg,
+    var(--sand2) 0px, var(--sand2) 1px,
+    transparent 1px, transparent 33.33%
+  );
+  pointer-events: none;
+}
+
+.bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+
+.barFill {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  position: relative;
+  min-height: 4px;
+  transition: opacity 0.15s;
+}
+
+.bar:hover .barFill {
+  opacity: 0.75;
+}
+
+.barLabel {
+  font-size: 10px;
+  color: var(--ink3);
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+/* ── Alert List ── */
+.alertItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 11px 18px;
+  border-bottom: 1px solid var(--sand2);
+  transition: background 0.15s;
+  cursor: default;
+}
+
+.alertItem:last-child {
+  border-bottom: none;
+}
+
+.alertItem:hover {
+  background: var(--sand);
+}
+
+.alertDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.alertText {
+  font-size: 12px;
+  color: var(--ink2);
+  line-height: 1.5;
+}
+
+.alertMeta {
+  font-size: 11px;
+  color: var(--ink3);
+  margin-top: 2px;
+}
+
+/* ── Table ── */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table th {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink3);
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--sand2);
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--sand2);
+  color: var(--ink2);
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover td {
+  background: var(--sand);
+}
+
+.table td:first-child {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ── Status Pills ── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.pillDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.pillGreen  { background: var(--green-bg);  color: var(--green); }
+.pillRed    { background: var(--red-bg);    color: var(--red); }
+.pillAmber  { background: var(--amber-bg);  color: var(--amber); }
+
+/* ── Gauges ── */
+.gaugeList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.gaugeItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gaugeTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gaugeName {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.gaugePct {
+  font-size: 12px;
+  color: var(--ink3);
+}
+
+.gaugeTrack {
+  height: 8px;
+  background: var(--sand2);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.gaugeFill {
+  height: 100%;
+  border-radius: 20px;
+  transition: width 0.8s ease;
+}
