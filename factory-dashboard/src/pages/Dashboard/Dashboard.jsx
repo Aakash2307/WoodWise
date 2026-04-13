@@ -41,6 +41,9 @@ const statusConfig = {
 
 const maxBar = Math.max(...barData.map(d => d.value));
 
+
+
+
 export default function Dashboard() {
   return (
     <>
