@@ -1,0 +1,431 @@
+/* ── Page Header ── */
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.pageTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.3px;
+  margin: 0;
+}
+
+.pageSub {
+  font-size: 12px;
+  color: var(--ink3);
+  margin: 3px 0 0;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ── Search ── */
+.searchWrap {
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink3);
+  pointer-events: none;
+}
+
+.searchInput {
+  padding: 7px 12px 7px 30px;
+  font-size: 13px;
+  border: 1px solid var(--sand2);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--ink);
+  outline: none;
+  width: 200px;
+  transition: border-color 0.15s;
+}
+
+.searchInput:focus {
+  border-color: var(--sand3);
+}
+
+.searchInput::placeholder {
+  color: var(--ink3);
+}
+
+/* ── Select ── */
+.select {
+  padding: 7px 10px;
+  font-size: 13px;
+  border: 1px solid var(--sand2);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--ink2);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.select:focus {
+  border-color: var(--sand3);
+}
+
+/* ── Add Button ── */
+.btnAdd {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  background: #8B6343;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btnAdd:hover {
+  background: #7a5535;
+}
+
+/* ── KPI Row ── */
+.kpiRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 1100px) { .kpiRow { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px)  { .kpiRow { grid-template-columns: 1fr 1fr; } }
+
+.kpiCard {
+  background: var(--white);
+  border: 1px solid var(--sand2);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.2s;
+}
+
+.kpiCard:hover {
+  border-color: var(--sand3);
+}
+
+.kpiIconRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kpiIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.kpiTag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.kpiNumber {
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.kpiLabel {
+  font-size: 12px;
+  color: var(--ink3);
+  font-weight: 500;
+}
+
+/* ── Card ── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--sand2);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--sand2);
+}
+
+.cardTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.cardBadge {
+  font-size: 11px;
+  color: var(--ink3);
+  background: var(--sand);
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.cardBody {
+  padding: 16px 18px;
+}
+
+/* ── Table ── */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table th {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink3);
+  padding: 8px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--sand2);
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--sand2);
+  color: var(--ink2);
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover td {
+  background: var(--sand);
+}
+
+.productName {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.productSku {
+  font-size: 11px;
+  color: var(--ink3);
+  margin-top: 2px;
+}
+
+.emptyRow {
+  text-align: center;
+  color: var(--ink3);
+  font-size: 13px;
+  padding: 28px 14px !important;
+}
+
+/* ── Stock Bar ── */
+.stockBarWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stockBarTrack {
+  flex: 1;
+  height: 6px;
+  background: var(--sand2);
+  border-radius: 20px;
+  overflow: hidden;
+  min-width: 64px;
+}
+
+.stockBarFill {
+  height: 100%;
+  border-radius: 20px;
+  transition: width 0.6s ease;
+}
+
+.stockNum {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  min-width: 24px;
+  text-align: right;
+}
+
+/* ── Status Pills ── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.pillDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.pillGreen   { background: var(--green-bg);  color: var(--green); }
+.pillRed     { background: var(--red-bg);    color: var(--red); }
+.pillAmber   { background: var(--amber-bg);  color: var(--amber); }
+.pillBlue    { background: #dceeff;          color: #1a5fa8; }
+
+/* ── Action Buttons ── */
+.btnReorder {
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid #8B6343;
+  border-radius: 6px;
+  background: transparent;
+  color: #8B6343;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.btnReorder:hover {
+  background: #f0e8df;
+}
+
+.btnView {
+  padding: 5px 10px;
+  font-size: 11px;
+  border: 1px solid var(--sand2);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink3);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btnView:hover {
+  background: var(--sand);
+  color: var(--ink);
+}
+
+/* ── Bottom Grid ── */
+.bottomGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 760px) { .bottomGrid { grid-template-columns: 1fr; } }
+
+/* ── Gauges ── */
+.gaugeList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.gaugeItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gaugeTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gaugeName {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.gaugePct {
+  font-size: 12px;
+  color: var(--ink3);
+  transition: color 0.2s;
+}
+
+.gaugeTrack {
+  height: 8px;
+  background: var(--sand2);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.gaugeFill {
+  height: 100%;
+  border-radius: 20px;
+  transition: width 0.8s ease;
+}
+
+/* ── Activity Feed ── */
+.activityItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 11px 18px;
+  border-bottom: 1px solid var(--sand2);
+  transition: background 0.15s;
+  cursor: default;
+}
+
+.activityItem:last-child {
+  border-bottom: none;
+}
+
+.activityItem:hover {
+  background: var(--sand);
+}
+
+.activityDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.activityText {
+  font-size: 12px;
+  color: var(--ink2);
+  line-height: 1.5;
+}
+
+.activityTime {
+  font-size: 11px;
+  color: var(--ink3);
+  margin-top: 2px;
+}

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 
 const SofaIcon = () => (
@@ -36,6 +37,13 @@ const WarehouseIcon = () => (
   </svg>
 );
 
+const MaterialsIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.6">
+    <path d="M9 1L16 5V13L9 17L2 13V5L9 1Z"/>
+    <path d="M9 1V17M2 5L9 9L16 5"/>
+  </svg>
+);
+
 const TransferIcon = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.6">
     <path d="M2 6H13M13 6L10 3M13 6L10 9"/>
@@ -63,22 +71,26 @@ const navGroups = [
   {
     label: "Main",
     items: [
-      { key: "Dashboard",     label: "Dashboard",     Icon: GridIcon,     badge: null },
-      { key: "Products",      label: "Products",      Icon: BoxIcon,      badge: null },
-      { key: "Locations",     label: "Locations",     Icon: WarehouseIcon,badge: null },
+      { label: "Dashboard",    path: "/",          Icon: GridIcon },
+      { label: "Products",     path: "/products",  Icon: BoxIcon },
+      { label: "Locations",    path: "/locations", Icon: WarehouseIcon },
+      { label: "Materials",    path: "/materials", Icon: MaterialsIcon },
     ],
   },
   {
     label: "Actions",
     items: [
-      { key: "Move Stock",    label: "Move Stock",    Icon: TransferIcon, badge: "3" },
-      { key: "New Purchase",  label: "New Purchase",  Icon: PlusIcon,     badge: null },
-      { key: "History",       label: "History",       Icon: ClockIcon,    badge: null },
+      { label: "Move Stock",   path: "/move-stock",   Icon: TransferIcon, badge: "3" },
+      { label: "New Purchase", path: "/new-purchase", Icon: PlusIcon },
+      { label: "History",      path: "/history",      Icon: ClockIcon },
     ],
   },
 ];
 
-export default function Sidebar({ activePage, setActivePage, collapsed, setCollapsed }) {
+export default function Sidebar({ collapsed, setCollapsed }) {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
   return (
     <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""}`}>
       <div className={styles.logo}>
@@ -95,11 +107,11 @@ export default function Sidebar({ activePage, setActivePage, collapsed, setColla
         {navGroups.map(group => (
           <div key={group.label}>
             <div className={styles.sectionLabel}>{group.label}</div>
-            {group.items.map(({ key, label, Icon, badge }) => (
+            {group.items.map(({ label, path, Icon, badge }) => (
               <button
-                key={key}
-                className={`${styles.navItem} ${activePage === key ? styles.active : ""}`}
-                onClick={() => setActivePage(key)}
+                key={path}
+                className={`${styles.navItem} ${pathname === path ? styles.active : ""}`}
+                onClick={() => navigate(path)}
                 title={collapsed ? label : undefined}
               >
                 <span className={styles.navIcon}><Icon /></span>

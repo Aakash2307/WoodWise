@@ -1,28 +1,14 @@
-import React, { useState } from "react";
-import styles from "./Layout.module.css";
+import React from "react";
 import Sidebar from "../Sidebar/Sidebar";
-import Header from "../Header/Header";
+import styles from "./Layout.module.css";
 
-export default function Layout({ children, activePage, setActivePage }) {
-  const [collapsed, setCollapsed] = useState(false);
-
+export default function Layout({ children }) {
   return (
     <div className={styles.shell}>
-      <Sidebar
-        activePage={activePage}
-        setActivePage={setActivePage}
-        collapsed={collapsed}
-        setCollapsed={setCollapsed}
-      />
-      <div className={styles.body}>
-        <Header
-          activePage={activePage}
-          onToggle={() => setCollapsed(c => !c)}
-        />
-        <main className={styles.main}>
-          {children}
-        </main>
-      </div>
+      <Sidebar />
+      <main className={styles.main}>
+        {children}
+      </main>
     </div>
   );
 }
