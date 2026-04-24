@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import s from "./Login.module.css"
-
-import { login } from "../../api"
+import s from "./Login.module.css";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -16,26 +14,7 @@ export default function Login() {
     setError("");
   };
 
-//   const handleSubmit = async e => {
-//     e.preventDefault();
-//     if (!form.email || !form.password) {
-//         setError("Please fill in all fields.");
-//         return;
-//     }
-//     setLoading(true);
-//     setError("");
-//     try {
-//         const { user } = await login({ email: form.email, password: form.password });
-//         navigate("/");
-//     } catch (err) {
-//         setError(err?.response?.data?.detail || "Invalid email or password.");
-//     } finally {
-//         setLoading(false);
-//     }
-//     };
-
-
-const handleSubmit = async e => {
+  const handleSubmit = async e => {
   e.preventDefault();
   if (!form.email || !form.password) {
     setError("Please fill in all fields.");
@@ -80,7 +59,7 @@ const handleSubmit = async e => {
         <div className={s.card}>
           <div className={s.cardTop}>
             <h2 className={s.cardTitle}>Welcome back</h2>
-            <p className={s.cardSub}>Log in to your WoodWise account</p>
+            <p className={s.cardSub}>Sign in to your WoodWise account</p>
           </div>
 
           <form className={s.form} onSubmit={handleSubmit} noValidate>
