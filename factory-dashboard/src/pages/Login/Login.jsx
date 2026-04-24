@@ -26,8 +26,32 @@ const handleSubmit = async e => {
   setError("");
   try {
     const { user } = await login({ email: form.email, password: form.password });
-    navigate("/");
+    
+    console.log("Login successful, user:", user);
+    
+    // Redirect based on role - direct string comparison
+    switch (user.role) {
+      case "system_admin":  
+        navigate("/system-admin"); 
+        break;
+      case "factory_admin": 
+        navigate("/factory-admin"); 
+        break;
+      case "manager":       
+        navigate("/manager"); 
+        break;
+      case "accountant":    
+        navigate("/accountant"); 
+        break;
+      case "clerk":         
+        navigate("/clerk"); 
+        break;
+      default:                  
+        navigate("/"); 
+        break;
+    }
   } catch (err) {
+    console.error("Login error:", err);
     setError(err?.response?.data?.detail || "Invalid email or password.");
   } finally {
     setLoading(false);

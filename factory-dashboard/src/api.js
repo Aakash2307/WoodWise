@@ -56,17 +56,16 @@ export const login = async ({ email, password }) => {
   const res = await api.post("/auth/login", { email, password });
   const { access_token } = res.data;
 
-  // Decode JWT payload to get user info (no library needed — just base64)
-  const payload = JSON.parse(atob(access_token.split(".")[1]));
-  // payload shape: { sub, tenant_id, role, exp }
+  // Save token first
+  localStorage.setItem("token", access_token);
 
-  const user = {
-    id:        payload.sub,
-    tenant_id: payload.tenant_id,
-    role:      payload.role,
-  };
+  // Now fetch the actual user object from /auth/me
+  const userRes = await api.get("/auth/me");
+  const user = userRes.data;
 
-  saveSession(access_token, user);
+  // Save user to localStorage
+  localStorage.setItem("user", JSON.stringify(user));
+
   return { token: access_token, user };
 };
 
@@ -106,10 +105,12 @@ export const logout = () => {
 
 // ── Auth — Get current user ────────────────────────────────────
 // GET /auth/me
+// Response: { id, email, full_name, tenant_id, role }
 export const getMe = async () => {
   const res = await api.get("/auth/me");
-  localStorage.setItem("user", JSON.stringify(res.data));
-  return res.data;
+  const user = res.data;
+  localStorage.setItem("user", JSON.stringify(user));
+  return user;
 };
 
 // ── Role constants ─────────────────────────────────────────────
@@ -134,5 +135,18 @@ export const hasRole = (user, requiredRole) => {
   if (!user) return false;
   return ROLE_HIERARCHY.indexOf(user.role) >= ROLE_HIERARCHY.indexOf(requiredRole);
 };
+
+
+
+export function getRoleHomePage(role) {
+  switch (role) {
+    case ROLES.SYSTEM_ADMIN:  return "/system-admin";
+    case ROLES.FACTORY_ADMIN: return "/factory-admin";
+    case ROLES.MANAGER:       return "/manager";
+    case ROLES.ACCOUNTANT:    return "/accountant";
+    case ROLES.CLERK:         return "/clerk";
+    default:                  return "/";
+  }
+}
 
 export default api;
