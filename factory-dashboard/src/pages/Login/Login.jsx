@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import s from "./Login.module.css";
 
+import { login } from "../../api";
+
 export default function Login() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
@@ -14,7 +16,7 @@ export default function Login() {
     setError("");
   };
 
-  const handleSubmit = async e => {
+const handleSubmit = async e => {
   e.preventDefault();
   if (!form.email || !form.password) {
     setError("Please fill in all fields.");
