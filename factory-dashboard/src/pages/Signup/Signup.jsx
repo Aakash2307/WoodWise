@@ -47,7 +47,9 @@ export default function Signup() {
         fullName:    form.name,
         companyName: form.companyName,
       });
-      navigate("/login");
+
+      await login({ email: form.email, password: form.password });
+      navigate("/onboarding");
     } catch (err) {
       setError(err?.response?.data?.detail || "Something went wrong. Please try again.");
     } finally {

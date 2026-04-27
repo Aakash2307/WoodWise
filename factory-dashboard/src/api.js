@@ -113,6 +113,40 @@ export const getMe = async () => {
   return user;
 };
 
+// ── Onboarding — Step 1: Company Profile ──────────────────────
+// PUT /company/onboarding/step-1-profile
+// Body:     { gstin, pan_number }
+// Response: { message, onboarding_step }
+export const onboardingStep1 = async ({ gstin, pan_number }) => {
+  const res = await api.put("/company/onboarding/step-1-profile", {
+    gstin,
+    pan_number,
+  });
+  return res.data;
+};
+
+// ── Onboarding — Step 2: Add Location ─────────────────────────
+// POST /company/onboarding/step-2-locations
+// Body:     { name, location_type, address }
+// Response: { message, onboarding_step }
+export const onboardingStep2 = async ({ name, location_type, address }) => {
+  const res = await api.post("/company/onboarding/step-2-locations", {
+    name,
+    location_type,
+    address,
+  });
+  return res.data;
+};
+
+// ── Onboarding — Step 3: Seed Database ────────────────────────
+// POST /company/onboarding/step-3-seed
+// Body:     (none)
+// Response: { message, status }
+export const onboardingStep3 = async () => {
+  const res = await api.post("/company/onboarding/step-3-seed");
+  return res.data;
+};
+
 // ── Role constants ─────────────────────────────────────────────
 export const ROLES = {
   SYSTEM_ADMIN:  "system_admin",
@@ -135,8 +169,6 @@ export const hasRole = (user, requiredRole) => {
   if (!user) return false;
   return ROLE_HIERARCHY.indexOf(user.role) >= ROLE_HIERARCHY.indexOf(requiredRole);
 };
-
-
 
 export function getRoleHomePage(role) {
   switch (role) {

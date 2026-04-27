@@ -85,7 +85,7 @@ const handleSubmit = async e => {
         <div className={s.card}>
           <div className={s.cardTop}>
             <h2 className={s.cardTitle}>Welcome back</h2>
-            <p className={s.cardSub}>Sign in to your WoodWise account</p>
+            <p className={s.cardSub}>Log in to your WoodWise account</p>
           </div>
 
           <form className={s.form} onSubmit={handleSubmit} noValidate>
@@ -131,7 +131,7 @@ const handleSubmit = async e => {
             {error && <div className={s.errorBox}><AlertIcon />{error}</div>}
 
             <button className={s.btnSubmit} type="submit" disabled={loading}>
-              {loading ? <span className={s.spinner} /> : "Sign in"}
+              {loading ? <span className={s.spinner} /> : "Log in"}
             </button>
           </form>
 
