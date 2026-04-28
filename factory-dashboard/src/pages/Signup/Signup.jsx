@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import s from "./Signup.module.css";
-import { signup } from "../../api";
+import { login , signup } from "../../api";
 
 export default function Signup() {
   const navigate = useNavigate();
