@@ -196,7 +196,7 @@ export default function Signup() {
 
           <p className={s.switchText}>
             Already have an account?{" "}
-            <Link to="/" className={s.switchLink}>Log in</Link>
+            <Link to="/login" className={s.switchLink}>Log in</Link>
           </p>
 
         </div>

@@ -5,6 +5,7 @@ import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import ProtectedRoute from "./components/ProtectedRoute";
 import FactoryOnboarding from "./pages/FactoryOnboarding";
+import LandingPage from "./pages/LandingPage"
 
 import { ROLES, getRoleHomePage, getUser } from "./api";
 
@@ -28,13 +29,26 @@ function OnboardingRoute() {
   );
 }
 
+function LandingRoute() {
+  const navigate = useNavigate();
+  return (
+    <LandingPage
+      onLogin={() => navigate("/login")}
+      onSignup={() => navigate("/signup")}
+    />
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         {/* Public routes */}
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<LandingRoute />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        
+        
 
         {/* Onboarding — requires a token but no Layout/sidebar */}
         <Route element={<ProtectedRoute />}>
