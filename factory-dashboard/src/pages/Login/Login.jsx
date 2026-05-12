@@ -105,7 +105,8 @@ const handleSubmit = async e => {
             <div className={s.field}>
               <div className={s.labelRow}>
                 <label className={s.label}>Password</label>
-                <button type="button" className={s.forgotLink}>Forgot password?</button>
+                <button type="button" className={s.forgotLink}
+                onClick={() => navigate("/forgot-password")}>Forgot password?</button>
               </div>
               <div className={s.inputWrap}>
                 <input

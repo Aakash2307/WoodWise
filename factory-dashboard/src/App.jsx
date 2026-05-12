@@ -6,6 +6,7 @@ import Signup from "./pages/Signup/Signup";
 import ProtectedRoute from "./components/ProtectedRoute";
 import FactoryOnboarding from "./pages/FactoryOnboarding";
 import LandingPage from "./pages/LandingPage"
+import ForgotPass from "./pages/ForgotPassword/ForgotPass";
 
 import { ROLES, getRoleHomePage, getUser } from "./api";
 
@@ -47,6 +48,7 @@ export default function App() {
         <Route path="/" element={<LandingRoute />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot-password" element={<ForgotPass />} />
         
         
 
