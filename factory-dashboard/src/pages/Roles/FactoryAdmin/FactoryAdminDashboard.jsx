@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCategories, logout } from "../../api";
+import { getCategories, logout , getUser } from "../../../api";
 import s from "./FactoryAdminDashboard.module.css";
 
 // ─── icons ────────────────────────────────────────────────────────────────────
@@ -93,7 +93,7 @@ const INVENTORY_CARDS = [
     tag: "Inventory",
   },
   {
-    title: "Categories",
+    title: "Materials",
     desc: "Organise your materials and products into categories for faster filtering and reporting.",
     icon: <TagIcon />,
     color: "#1a5fa8",
@@ -205,6 +205,20 @@ export default function FactoryAdminDashboard() {
   const [catCount, setCatCount]     = useState(null);
   const [loadingStats, setLoadingStats] = useState(true);
 
+
+  useEffect(() => {
+    // FIX: Use the imported helper function instead of raw localStorage
+    const currentUser = getUser(); 
+    if (currentUser) {
+      setUser(currentUser);
+    }
+
+    getCategories()
+      .then(data => setCatCount(Array.isArray(data) ? data.length : data?.total ?? "—"))
+      .catch(() => setCatCount("—"))
+      .finally(() => setLoadingStats(false));
+  }, []);
+
   useEffect(() => {
     const stored = localStorage.getItem("ww_user");
     if (stored) setUser(JSON.parse(stored));
@@ -260,7 +274,7 @@ export default function FactoryAdminDashboard() {
           <div className={s.welcomeRow}>
             <div>
               <h1 className={s.welcomeTitle}>
-                {greeting()}, {user?.full_name?.split(" ")[0] || "Admin"} 👋
+                {greeting()}, {user?.full_name?.split(" ")[0] || user.full_name} 👋
               </h1>
               <p className={s.welcomeSub}>
                 Here's an overview of your factory workspace today.

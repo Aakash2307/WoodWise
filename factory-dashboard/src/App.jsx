@@ -1,23 +1,22 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
-import Layout from "./components/Layout/Layout";
+import Layout from "./components/Layout/Layout"; // Global default layout
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import ProtectedRoute from "./components/ProtectedRoute";
 import FactoryOnboarding from "./pages/FactoryOnboarding";
-import LandingPage from "./pages/LandingPage"
+import LandingPage from "./pages/LandingPage";
 import ForgotPass from "./pages/ForgotPassword/ForgotPass";
 
 import { ROLES, getRoleHomePage, getUser } from "./api";
 
 // Role-specific pages
-import FactoryAdmin from "./pages/Roles/FactoryAdmin/FactoryAdmin";
 import SystemAdmin from "./pages/Roles/SystemAdmin/SystemAdmin";
 import Accountant from "./pages/Roles/Accountant/Accountant";
 import Clerk from "./pages/Roles/Clerk/Clerk";
 import Manager from "./pages/Roles/Manager/Manager";
+import FactoryAdminDashboard from "./pages/Roles/FactoryAdmin/FactoryAdminDashboard";
 
-// Wrapper so useNavigate works inside the onboarding route
 function OnboardingRoute() {
   const navigate = useNavigate();
   return (
@@ -44,64 +43,73 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public routes */}
+        {/* ── Public Routes ──────────────────────────────────────── */}
         <Route path="/" element={<LandingRoute />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPass />} />
-        
-        
 
-        {/* Onboarding — requires a token but no Layout/sidebar */}
+        {/* ── Onboarding Route ──────────────────────────────────── */}
         <Route element={<ProtectedRoute />}>
           <Route path="/onboarding" element={<OnboardingRoute />} />
         </Route>
 
-        {/* Protected routes — wrapped in Layout */}
+        {/* ── Protected Routes (Layouts handled individually) ────── */}
         <Route element={<ProtectedRoute />}>
-          <Route element={<Layout />}>
 
-            {/* System Admin */}
-            <Route
-              path="/system-admin"
-              element={<ProtectedRoute allowedRoles={[ROLES.SYSTEM_ADMIN]} />}
-            >
+          {/* System Admin */}
+          <Route
+            path="/system-admin"
+            element={<ProtectedRoute allowedRoles={[ROLES.SYSTEM_ADMIN]} />}
+          >
+            {/* If System Admin needs a layout, wrap it here. Otherwise, leave it clean */}
+            <Route element={<Layout />}>
               <Route index element={<SystemAdmin />} />
             </Route>
+          </Route>
 
-            {/* Factory Admin */}
-            <Route
-              path="/factory-admin"
-              element={<ProtectedRoute allowedRoles={[ROLES.FACTORY_ADMIN]} />}
-            >
-              <Route index element={<FactoryAdmin />} />
-            </Route>
+          {/* Factory Admin — Customize layout independently */}
+          <Route
+            path="/factory-admin"
+            element={<ProtectedRoute allowedRoles={[ROLES.FACTORY_ADMIN]} />}
+          >
+            {/* 💡 CHANGE HERE: If Factory Admin doesn't use the standard Layout, 
+                remove <Route element={<Layout />}> and just render the component */}
+            
+              <Route index element={<FactoryAdminDashboard />} />
+            
+          </Route>
 
-            {/* Manager */}
-            <Route
-              path="/manager"
-              element={<ProtectedRoute allowedRoles={[ROLES.MANAGER]} />}
-            >
+          {/* Manager */}
+          <Route
+            path="/manager"
+            element={<ProtectedRoute allowedRoles={[ROLES.MANAGER]} />}
+          >
+            <Route element={<Layout />}>
               <Route index element={<Manager />} />
             </Route>
+          </Route>
 
-            {/* Accountant */}
-            <Route
-              path="/accountant"
-              element={<ProtectedRoute allowedRoles={[ROLES.ACCOUNTANT]} />}
-            >
+          {/* Accountant */}
+          <Route
+            path="/accountant"
+            element={<ProtectedRoute allowedRoles={[ROLES.ACCOUNTANT]} />}
+          >
+            <Route element={<Layout />}>
               <Route index element={<Accountant />} />
             </Route>
+          </Route>
 
-            {/* Clerk */}
-            <Route
-              path="/clerk"
-              element={<ProtectedRoute allowedRoles={[ROLES.CLERK]} />}
-            >
+          {/* Clerk */}
+          <Route
+            path="/clerk"
+            element={<ProtectedRoute allowedRoles={[ROLES.CLERK]} />}
+          >
+            <Route element={<Layout />}>
               <Route index element={<Clerk />} />
             </Route>
-
           </Route>
+
         </Route>
 
         {/* Fallback */}
