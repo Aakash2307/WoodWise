@@ -17,6 +17,11 @@ import Clerk from "./pages/Roles/Clerk/Clerk";
 import Manager from "./pages/Roles/Manager/Manager";
 import FactoryAdminDashboard from "./pages/Roles/FactoryAdmin/FactoryAdminDashboard";
 
+
+
+// Inventory specific pages 
+import Materials from "./pages/Inventory/Materials/Materials";
+
 function OnboardingRoute() {
   const navigate = useNavigate();
   return (
@@ -48,6 +53,8 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPass />} />
+        <Route path="/factory-admin/materials" element={<Materials />} />
+
 
         {/* ── Onboarding Route ──────────────────────────────────── */}
         <Route element={<ProtectedRoute />}>

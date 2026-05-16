@@ -1,6 +1,6 @@
 const BASE_URL = "https://factory-backend-hyio.onrender.com";
 
-// ─── Role Constants ─────────────────────────────────────────────
+// ─── Role Constants ───────────────────────────────────────────────────────────
 export const ROLES = {
   SYSTEM_ADMIN:  "system_admin",
   FACTORY_ADMIN: "factory_admin",
@@ -17,14 +17,14 @@ const ROLE_HIERARCHY = [
   ROLES.SYSTEM_ADMIN,
 ];
 
-// ─── Session Helpers & Interceptor Logic ─────────────────────────
-export const getToken   = () => localStorage.getItem("token") || "";
-export const getUser    = () => JSON.parse(localStorage.getItem("user") || "null");
+// ─── Session Helpers ──────────────────────────────────────────────────────────
+export const getToken   = () => localStorage.getItem("ww_token") || "";
+export const getUser    = () => JSON.parse(localStorage.getItem("ww_user") || "null");
 export const isLoggedIn = () => !!getToken();
 
 export const clearSession = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
+  localStorage.removeItem("ww_token");
+  localStorage.removeItem("ww_user");
 };
 
 function authHeaders() {
@@ -35,7 +35,7 @@ function authHeaders() {
   };
 }
 
-// Global request wrapper (handles errors, 204s, and global 401 redirects)
+// ─── Global Request Wrapper ───────────────────────────────────────────────────
 async function request(method, path, body = null) {
   const res = await fetch(BASE_URL + path, {
     method,
@@ -43,14 +43,12 @@ async function request(method, path, body = null) {
     ...(body !== null ? { body: JSON.stringify(body) } : {}),
   });
 
-  // Handle global 401 Unauthorized
   if (res.status === 401) {
     clearSession();
     window.location.href = "/login";
     return null;
   }
 
-  // Handle 204 No Content
   if (res.status === 204) return null;
 
   const data = await res.json();
@@ -62,34 +60,25 @@ async function request(method, path, body = null) {
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────
 
-// POST /auth/login -> followed by automatic profile fetch
 export async function login({ email, password }) {
   const data = await request("POST", "/auth/login", { email, password });
-  
-  // Accept either variant key naming safely
   const token = data?.access_token || data?.token;
   if (token) {
-    localStorage.setItem("token", token);
+    localStorage.setItem("ww_token", token);
   }
-
-  // Fetch the actual user object immediately to sync session storage
   const user = await getMe();
-  
   return { token, user };
 }
 
-// POST /auth/signup (creates a new company + factory_admin account)
 export async function signup({ email, password, fullName, companyName }) {
-  const data = await request("POST", "/auth/signup", {
+  return request("POST", "/auth/signup", {
     email,
     password,
     full_name:    fullName,
     company_name: companyName,
   });
-  return data;
 }
 
-// POST /auth/employees (factory_admin creates staff under their tenant)
 export async function createEmployee({ email, password, fullName, role }) {
   return request("POST", "/auth/employees", {
     email,
@@ -104,11 +93,10 @@ export function logout() {
   window.location.href = "/login";
 }
 
-// GET /auth/me
 export async function getMe() {
   const user = await request("GET", "/auth/me");
   if (user) {
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("ww_user", JSON.stringify(user));
   }
   return user;
 }
@@ -129,37 +117,75 @@ export async function resetPassword(email, otp, new_password) {
 
 // ─── Onboarding ───────────────────────────────────────────────────────────────
 
-// PUT /company/onboarding/step-1-profile
 export async function onboardingStep1({ gstin, pan_number }) {
   return request("PUT", "/company/onboarding/step-1-profile", { gstin, pan_number });
 }
 
-// POST /company/onboarding/step-2-locations
 export async function onboardingStep2({ name, location_type, address }) {
   return request("POST", "/company/onboarding/step-2-locations", { name, location_type, address });
 }
 
-// POST /company/onboarding/step-3-seed
 export async function onboardingStep3() {
   return request("POST", "/company/onboarding/step-3-seed");
 }
 
 // ─── Inventory — Categories ───────────────────────────────────────────────────
 
+// GET /inventory/categories
 export async function getCategories() {
   return request("GET", "/inventory/categories");
 }
 
-export async function createCategory(name) {
+// POST /inventory/categories  — body: { name: "string" }
+export async function createCategory({ name }) {
   return request("POST", "/inventory/categories", { name });
 }
 
-export async function updateCategory(category_id, name) {
+// PUT /inventory/categories/{id}  — body: { name: "string" }
+export async function updateCategory(category_id, { name }) {
   return request("PUT", `/inventory/categories/${category_id}`, { name });
 }
 
+// DELETE /inventory/categories/{id}
 export async function deleteCategory(category_id) {
   return request("DELETE", `/inventory/categories/${category_id}`);
+}
+
+// ─── Inventory — Items ────────────────────────────────────────────────────────
+
+// GET /inventory/items?category_id=X
+export async function getItems({ category_id } = {}) {
+  const params = category_id ? `?category_id=${category_id}` : "";
+  return request("GET", `/inventory/items${params}`);
+}
+
+// POST /inventory/items
+// body: { name, sku, item_type, category_id, unit_of_measure, purchase_uom, conversion_ratio, reorder_level }
+export async function createItem(body) {
+  return request("POST", "/inventory/items", body);
+}
+
+// DELETE /inventory/items/{item_id}
+export async function deleteItem(item_id) {
+  return request("DELETE", `/inventory/items/${item_id}`);
+}
+
+// ─── Inventory — Movements ────────────────────────────────────────────────────
+
+// POST /inventory/movements
+// body: { item_id, location_id, quantity, transaction_type, reference_number, remarks }
+export async function recordMovement(body) {
+  return request("POST", "/inventory/movements", body);
+}
+
+// ─── Inventory — Transactions ─────────────────────────────────────────────────
+
+// GET /inventory/transactions?item_id=X&transaction_type=inward|outward
+export async function getTransactions({ item_id, transaction_type } = {}) {
+  const params = new URLSearchParams();
+  if (item_id)          params.set("item_id", item_id);
+  if (transaction_type) params.set("transaction_type", transaction_type);
+  return request("GET", `/inventory/transactions?${params}`);
 }
 
 // ─── Role Utilities ───────────────────────────────────────────────────────────
@@ -180,5 +206,4 @@ export function getRoleHomePage(role) {
   }
 }
 
-// Add this to the VERY bottom of api.js to satisfy Vite's cache
 export default {};

@@ -74,7 +74,7 @@ const BellIcon = () => (
 // ─── Nav items ────────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
   { label: "Dashboard",  path: "/factory-admin",            active: true  },
-  { label: "Inventory",  path: "/factory-admin/inventory",  active: false },
+  { label: "Accounts",   path: "/factory-admin/accounts",   active: false },
   { label: "Orders",     path: "/factory-admin/orders",     active: false },
   { label: "Locations",  path: "/factory-admin/locations",  active: false },
   { label: "Reports",    path: "/factory-admin/reports",    active: false },
@@ -99,7 +99,7 @@ const INVENTORY_CARDS = [
     color: "#1a5fa8",
     bg: "rgba(26,95,168,0.07)",
     border: "rgba(26,95,168,0.16)",
-    path: "/factory-admin/inventory",
+    path: "/factory-admin/materials",
     tag: "Inventory",
   },
   {
@@ -207,28 +207,14 @@ export default function FactoryAdminDashboard() {
 
 
   useEffect(() => {
-    // FIX: Use the imported helper function instead of raw localStorage
-    const currentUser = getUser(); 
-    if (currentUser) {
-      setUser(currentUser);
-    }
+  const currentUser = getUser();
+  if (currentUser) setUser(currentUser);
 
-    getCategories()
-      .then(data => setCatCount(Array.isArray(data) ? data.length : data?.total ?? "—"))
-      .catch(() => setCatCount("—"))
-      .finally(() => setLoadingStats(false));
-  }, []);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("ww_user");
-    if (stored) setUser(JSON.parse(stored));
-
-    getCategories()
-      .then(data => setCatCount(Array.isArray(data) ? data.length : data?.total ?? "—"))
-      .catch(() => setCatCount("—"))
-      .finally(() => setLoadingStats(false));
-  }, []);
-
+  getCategories()
+    .then(data => setCatCount(Array.isArray(data) ? data.length : data?.total ?? "—"))
+    .catch(() => setCatCount("—"))
+    .finally(() => setLoadingStats(false));
+}, []);
   const handleLogout = () => {
     logout();
     navigate("/login");
@@ -274,7 +260,7 @@ export default function FactoryAdminDashboard() {
           <div className={s.welcomeRow}>
             <div>
               <h1 className={s.welcomeTitle}>
-                {greeting()}, {user?.full_name?.split(" ")[0] || user.full_name} 👋
+                {greeting()}, {user?.full_name?.split(" ")[0] || user?.full_name || "there  "} 👋
               </h1>
               <p className={s.welcomeSub}>
                 Here's an overview of your factory workspace today.
