@@ -24,6 +24,7 @@ const NAV_ITEMS = [
   { label: "Dashboard",  path: "/factory-admin" },
   { label: "Inventory",  path: "/factory-admin/inventory" },
   { label: "Materials",  path: "/factory-admin/materials" },
+  { label: "Stock Overview",  path: "/factory-admin/stock-overview" },
   { label: "Orders",     path: "/factory-admin/orders" },
   { label: "Locations",  path: "/factory-admin/locations" },
   { label: "Reports",    path: "/factory-admin/reports" },
