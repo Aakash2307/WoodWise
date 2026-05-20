@@ -2,16 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCategories, logout , getUser } from "../../../api";
 import s from "./FactoryAdminDashboard.module.css";
+import Sidebar from "../../../components/Sidebar/Sidebar";
 
 // ─── icons ────────────────────────────────────────────────────────────────────
-const SofaIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.6">
-    <rect x="1" y="9" width="16" height="5" rx="1.5" />
-    <rect x="3" y="6" width="12" height="3" rx="1" />
-    <line x1="4" y1="14" x2="4" y2="17" />
-    <line x1="14" y1="14" x2="14" y2="17" />
-  </svg>
-);
 
 const BoxIcon = () => (
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
@@ -56,13 +49,7 @@ const ChevronRightIcon = () => (
   </svg>
 );
 
-const LogOutIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-    <polyline points="16 17 21 12 16 7" />
-    <line x1="21" y1="12" x2="9" y2="12" />
-  </svg>
-);
+
 
 const BellIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
@@ -72,13 +59,6 @@ const BellIcon = () => (
 );
 
 // ─── Nav items ────────────────────────────────────────────────────────────────
-const NAV_ITEMS = [
-  { label: "Dashboard",  path: "/factory-admin",            active: true  },
-  { label: "Accounts",   path: "/factory-admin/accounts",   active: false },
-  { label: "Orders",     path: "/factory-admin/orders",     active: false },
-  { label: "Locations",  path: "/factory-admin/locations",  active: false },
-  { label: "Reports",    path: "/factory-admin/reports",    active: false },
-];
 
 // ─── Quick-access inventory cards ─────────────────────────────────────────────
 const INVENTORY_CARDS = [
@@ -138,47 +118,7 @@ const INVENTORY_CARDS = [
 ];
 
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
-function Sidebar({ activePath, onNavigate, user, onLogout }) {
-  return (
-    <aside className={s.sidebar}>
-      <div className={s.sidebarBrand}>
-        <div className={s.brandMark}><SofaIcon /></div>
-        <span className={s.brandName}>WoodWise</span>
-      </div>
 
-      <div className={s.sidebarMeta}>
-        <div className={s.tenantBadge}>Factory Admin</div>
-      </div>
-
-      <nav className={s.sidebarNav}>
-        {NAV_ITEMS.map(item => (
-          <button
-            key={item.path}
-            className={`${s.navItem} ${activePath === item.path ? s.navItemActive : ""}`}
-            onClick={() => onNavigate(item.path)}
-          >
-            {item.label}
-          </button>
-        ))}
-      </nav>
-
-      <div className={s.sidebarFooter}>
-        <div className={s.sidebarUser}>
-          <div className={s.userAvatar}>
-            {(user?.full_name || user?.email || "A")[0].toUpperCase()}
-          </div>
-          <div className={s.userInfo}>
-            <span className={s.userName}>{user?.full_name || "Factory Admin"}</span>
-            <span className={s.userEmail}>{user?.email || ""}</span>
-          </div>
-        </div>
-        <button className={s.logoutBtn} onClick={onLogout}>
-          <LogOutIcon /> Log out
-        </button>
-      </div>
-    </aside>
-  );
-}
 
 // ─── Stat card ────────────────────────────────────────────────────────────────
 function StatCard({ label, value, icon, color, bg, border, loading }) {
@@ -236,12 +176,7 @@ export default function FactoryAdminDashboard() {
 
   return (
     <div className={s.layout}>
-      <Sidebar
-        activePath="/factory-admin"
-        onNavigate={navigate}
-        user={user}
-        onLogout={handleLogout}
-      />
+      <Sidebar user={user} onLogout={handleLogout} />
 
       <main className={s.main}>
         {/* ── Topbar ── */}

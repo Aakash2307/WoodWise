@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+
 import {
   getCategories, createCategory, updateCategory, deleteCategory,
   getItems, createItem, deleteItem,
   getTransactions, recordMovement,
   logout, getUser,
 } from "../../../api";
+import Sidebar from "../../../components/Sidebar/Sidebar";
 import s from "./Materials.module.css";
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
@@ -81,53 +83,10 @@ const CloseIcon = () => (
 );
 
 // ─── NAV ──────────────────────────────────────────────────────────────────────
-const NAV_ITEMS = [
-  { label: "Dashboard",  path: "/factory-admin" },
-  { label: "Inventory",  path: "/factory-admin/inventory" },
-  { label: "Orders",     path: "/factory-admin/orders" },
-  { label: "Locations",  path: "/factory-admin/locations" },
-  { label: "Reports",    path: "/factory-admin/reports" },
-];
+
 
 // ─── Sidebar ──────────────────────────────────────────────────────────────────
-function Sidebar({ activePath, onNavigate, user, onLogout }) {
-  return (
-    <aside className={s.sidebar}>
-      <div className={s.sidebarBrand}>
-        <div className={s.brandMark}><SofaIcon /></div>
-        <span className={s.brandName}>WoodWise</span>
-      </div>
-      <div className={s.sidebarMeta}>
-        <div className={s.tenantBadge}>Factory Admin</div>
-      </div>
-      <nav className={s.sidebarNav}>
-        {NAV_ITEMS.map(item => (
-          <button
-            key={item.path}
-            className={`${s.navItem} ${activePath === item.path ? s.navItemActive : ""}`}
-            onClick={() => onNavigate(item.path)}
-          >
-            {item.label}
-          </button>
-        ))}
-      </nav>
-      <div className={s.sidebarFooter}>
-        <div className={s.sidebarUser}>
-          <div className={s.userAvatar}>
-            {(user?.full_name || user?.email || "A")[0].toUpperCase()}
-          </div>
-          <div className={s.userInfo}>
-            <span className={s.userName}>{user?.full_name || "Factory Admin"}</span>
-            <span className={s.userEmail}>{user?.email || ""}</span>
-          </div>
-        </div>
-        <button className={s.logoutBtn} onClick={onLogout}>
-          <LogOutIcon /> Log out
-        </button>
-      </div>
-    </aside>
-  );
-}
+
 
 // ─── Confirm Modal ────────────────────────────────────────────────────────────
 function ConfirmModal({ message, onConfirm, onCancel, loading }) {
@@ -492,7 +451,7 @@ export default function Materials() {
 
   return (
     <div className={s.layout}>
-      <Sidebar activePath="/factory-admin/inventory" onNavigate={navigate} user={user} onLogout={handleLogout} />
+      <Sidebar user={user} onLogout={handleLogout} />
 
       <main className={s.main}>
         {/* Topbar */}

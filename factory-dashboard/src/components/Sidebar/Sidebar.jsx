@@ -1,133 +1,101 @@
-import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import styles from "./Sidebar.module.css";
+import s from "./Sidebar.module.css";
 
+// ─── Icons ────────────────────────────────────────────────────────────────────
 const SofaIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.6">
-    <rect x="1" y="9" width="16" height="5" rx="1.5"/>
-    <rect x="3" y="6" width="12" height="3" rx="1"/>
-    <line x1="4" y1="14" x2="4" y2="17"/>
-    <line x1="14" y1="14" x2="14" y2="17"/>
+  <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.6">
+    <rect x="1" y="9" width="16" height="5" rx="1.5" />
+    <rect x="3" y="6" width="12" height="3" rx="1" />
+    <line x1="4" y1="14" x2="4" y2="17" />
+    <line x1="14" y1="14" x2="14" y2="17" />
   </svg>
 );
 
-const GridIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.6">
-    <rect x="1" y="1" width="7" height="7" rx="1.5"/>
-    <rect x="10" y="1" width="7" height="7" rx="1.5"/>
-    <rect x="1" y="10" width="7" height="7" rx="1.5"/>
-    <rect x="10" y="10" width="7" height="7" rx="1.5"/>
+const LogOutIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+    <polyline points="16 17 21 12 16 7" />
+    <line x1="21" y1="12" x2="9" y2="12" />
   </svg>
 );
 
-const BoxIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.6">
-    <path d="M9 1L16 5V13L9 17L2 13V5L9 1Z"/>
-    <path d="M9 1V17M2 5L9 9L16 5"/>
-  </svg>
-);
-
-const WarehouseIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.6">
-    <path d="M3 7H15V17H3Z"/>
-    <path d="M1 7L9 1L17 7"/>
-    <line x1="7" y1="17" x2="7" y2="12"/>
-    <line x1="11" y1="17" x2="11" y2="12"/>
-    <line x1="7" y1="12" x2="11" y2="12"/>
-  </svg>
-);
-
-const MaterialsIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.6">
-    <path d="M9 1L16 5V13L9 17L2 13V5L9 1Z"/>
-    <path d="M9 1V17M2 5L9 9L16 5"/>
-  </svg>
-);
-
-const TransferIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.6">
-    <path d="M2 6H13M13 6L10 3M13 6L10 9"/>
-    <path d="M16 12H5M5 12L8 9M5 12L8 15"/>
-  </svg>
-);
-
-const PlusIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.6">
-    <rect x="2" y="3" width="14" height="13" rx="1.5"/>
-    <path d="M6 3V1M12 3V1M2 7H16"/>
-    <line x1="9" y1="10" x2="9" y2="14"/>
-    <line x1="7" y1="12" x2="11" y2="12"/>
-  </svg>
-);
-
-const ClockIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.6">
-    <circle cx="9" cy="9" r="7.5"/>
-    <path d="M9 4.5V9L12 11.5"/>
-  </svg>
-);
-
-const navGroups = [
-  {
-    label: "Main",
-    items: [
-      { label: "Dashboard",    path: "/",          Icon: GridIcon },
-      { label: "Products",     path: "/products",  Icon: BoxIcon },
-      { label: "Locations",    path: "/locations", Icon: WarehouseIcon },
-      { label: "Materials",    path: "/materials", Icon: MaterialsIcon },
-    ],
-  },
-  {
-    label: "Actions",
-    items: [
-      { label: "Move Stock",   path: "/move-stock",   Icon: TransferIcon, badge: "3" },
-      { label: "New Purchase", path: "/new-purchase", Icon: PlusIcon },
-      { label: "History",      path: "/history",      Icon: ClockIcon },
-    ],
-  },
+// ─── Nav items ────────────────────────────────────────────────────────────────
+const NAV_ITEMS = [
+  { label: "Dashboard",  path: "/factory-admin" },
+  { label: "Inventory",  path: "/factory-admin/inventory" },
+  { label: "Materials",  path: "/factory-admin/materials" },
+  { label: "Orders",     path: "/factory-admin/orders" },
+  { label: "Locations",  path: "/factory-admin/locations" },
+  { label: "Reports",    path: "/factory-admin/reports" },
 ];
 
-export default function Sidebar({ collapsed, setCollapsed }) {
+// ─── Sidebar ──────────────────────────────────────────────────────────────────
+/**
+ * Shared sidebar for all Factory Admin pages.
+ *
+ * Props:
+ *   user       – { full_name?, email? }  current user object
+ *   onLogout   – () => void              called when the user clicks "Log out"
+ *   activePath – string (optional)       override active path detection
+ *                                        (defaults to current location.pathname)
+ */
+export default function Sidebar({ user, onLogout, activePath }) {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
+  const location = useLocation();
+
+  // Use the explicit override, or fall back to the current URL path.
+  // For nested routes (e.g. /factory-admin/inventory/123) we match by prefix
+  // so the correct nav item stays highlighted.
+  const currentPath = activePath ?? location.pathname;
+
+  const isActive = (itemPath) => {
+    // Exact match for dashboard root to avoid it matching everything
+    if (itemPath === "/factory-admin") return currentPath === "/factory-admin";
+    return currentPath.startsWith(itemPath);
+  };
 
   return (
-    <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""}`}>
-      <div className={styles.logo}>
-        <div className={styles.logoMark}>
+    <aside className={s.sidebar}>
+      {/* Brand */}
+      <div className={s.sidebarBrand}>
+        <div className={s.brandMark}>
           <SofaIcon />
         </div>
-        <div className={styles.logoWords}>
-          <div className={styles.logoName}>WoodWise</div>
-          <div className={styles.logoHint}>Inventory</div>
-        </div>
+        <span className={s.brandName}>WoodWise</span>
       </div>
 
-      <nav className={styles.nav}>
-        {navGroups.map(group => (
-          <div key={group.label}>
-            <div className={styles.sectionLabel}>{group.label}</div>
-            {group.items.map(({ label, path, Icon, badge }) => (
-              <button
-                key={path}
-                className={`${styles.navItem} ${pathname === path ? styles.active : ""}`}
-                onClick={() => navigate(path)}
-                title={collapsed ? label : undefined}
-              >
-                <span className={styles.navIcon}><Icon /></span>
-                <span className={styles.navLabel}>{label}</span>
-                {badge && <span className={styles.navBadge}>{badge}</span>}
-              </button>
-            ))}
-          </div>
+      {/* Role badge */}
+      <div className={s.sidebarMeta}>
+        <div className={s.tenantBadge}>Factory Admin</div>
+      </div>
+
+      {/* Nav */}
+      <nav className={s.sidebarNav}>
+        {NAV_ITEMS.map((item) => (
+          <button
+            key={item.path}
+            className={`${s.navItem} ${isActive(item.path) ? s.navItemActive : ""}`}
+            onClick={() => navigate(item.path)}
+          >
+            {item.label}
+          </button>
         ))}
       </nav>
 
-      <div className={styles.foot}>
-        <div className={styles.onlinePill}>
-          <span className={styles.onlineDot} />
-          <span className={styles.onlineText}>System online</span>
+      {/* Footer – user info + logout */}
+      <div className={s.sidebarFooter}>
+        <div className={s.sidebarUser}>
+          <div className={s.userAvatar}>
+            {(user?.full_name || user?.email || "A")[0].toUpperCase()}
+          </div>
+          <div className={s.userInfo}>
+            <span className={s.userName}>{user?.full_name || "Factory Admin"}</span>
+            <span className={s.userEmail}>{user?.email || ""}</span>
+          </div>
         </div>
+        <button className={s.logoutBtn} onClick={onLogout}>
+          <LogOutIcon /> Log out
+        </button>
       </div>
     </aside>
   );
