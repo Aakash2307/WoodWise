@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUser, logout, getTransactions, getItems } from "../../../api";
 import Sidebar from "../../../components/Sidebar/Sidebar";
-import s from "./StockOverview.module.css";
+import s from "../Stock/Stockoverview.module.css";
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 

@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import FactoryOnboarding from "./pages/FactoryOnboarding";
 import LandingPage from "./pages/LandingPage";
 import ForgotPass from "./pages/ForgotPassword/ForgotPass";
+import StockOverview from "./pages/Inventory/Stock/Stock";
 
 import { ROLES, getRoleHomePage, getUser } from "./api";
 
@@ -54,6 +55,7 @@ export default function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPass />} />
         <Route path="/factory-admin/materials" element={<Materials />} />
+        <Route path="/factory-admin/stock-overview" element={<StockOverview/>}/>
 
 
         {/* ── Onboarding Route ──────────────────────────────────── */}
